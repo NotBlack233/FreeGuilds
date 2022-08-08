@@ -1,0 +1,6 @@
+name: FreeGuilds
+version: '${project.version}'
+main: me.not_black.freeguilds.FreeGuilds
+api-version: 1.16
+depend: [ Vault ]
+authors: [ Not_Black ]
