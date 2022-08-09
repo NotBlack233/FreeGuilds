@@ -1,6 +1,30 @@
 name: FreeGuilds
-version: '${project.version}'
+version: '0.1'
 main: me.not_black.freeguilds.FreeGuilds
 api-version: 1.16
 depend: [ Vault ]
 authors: [ Not_Black ]
+commands:
+  guild:
+    aliases: g
+    usage: /guild <args>
+    description: Main command.
+  guildadmin:
+    aliases: gadmin
+    usage: /gadmin <args>
+    description: Admin command.
+permissions:
+  guild.use:
+    default: true
+  guild.create:
+    default: op
+  guild.disband:
+    default: true
+  guild.join:
+    default: true
+  guild.leave:
+    default: true
+  guild.remove:
+    default: op
+  guild.forcecreate:
+    default: op

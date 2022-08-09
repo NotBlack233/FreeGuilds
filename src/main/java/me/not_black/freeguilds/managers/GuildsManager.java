@@ -93,14 +93,14 @@ public final class GuildsManager {
         }
     }
 
-    private boolean removeGuildFile(@NotNull String uuid) {
+    public boolean removeGuildFile(@NotNull String uuid) {
         File guildFile=new File(FreeGuilds.getInstance().getDataFolder().getName()+"//guilds",uuid+".yml");
         if(guildFile.exists()) guildFile.delete();
         else return false;
         return true;
     }
 
-    private boolean removeGuildFile(@NotNull UUID uuid) {
+    public boolean removeGuildFile(@NotNull UUID uuid) {
         return removeGuildFile(uuid.toString());
     }
 }
