@@ -22,6 +22,7 @@ public class Guild {
     private List<UUID> guildMembers;
     private List<String> description;
     private final long creationTime;
+    private final GuildChat guildChat;
 
     public Guild(@NotNull String name,@NotNull UUID guildMaster,@NotNull List<UUID> guildMembers,@NotNull List<String> description, long creationTime,@NotNull String guildPrefix) {
         this.name = name;
@@ -33,6 +34,7 @@ public class Guild {
         this.guildPrefix = guildPrefix;
         this.guildFile = new File(FreeGuilds.getInstance().getDataFolder() + "//guilds", this.guildUUID + ".yml");
         this.guildFC = YamlConfiguration.loadConfiguration(this.guildFile);
+        this.guildChat=new GuildChat(this);
     }
 
     public Guild(@NotNull String name,@NotNull UUID guildUUID,@NotNull UUID guildMaster,@NotNull List<UUID> guildMembers,@NotNull List<String> description,long creationTime,@NotNull String guildPrefix) {
@@ -45,6 +47,7 @@ public class Guild {
         this.guildPrefix = guildPrefix;
         this.guildFile = new File(FreeGuilds.getInstance().getDataFolder() + "//guilds", this.guildUUID + ".yml");
         this.guildFC = YamlConfiguration.loadConfiguration(this.guildFile);
+        this.guildChat=new GuildChat(this);
     }
 
     public void register() {
@@ -78,6 +81,10 @@ public class Guild {
     @NotNull
     public List<String> getDescription() {
         return description;
+    }
+    @NotNull
+    public GuildChat getGuildChat() {
+        return guildChat;
     }
 
     public long getCreationTime() {
@@ -140,6 +147,7 @@ public class Guild {
 
     public void addGuildMember(@NotNull UUID member) {
         guildMembers.add(member);
+        FreeGuilds.getInstance().getPlayersManager().setPlayerGuild(member,this.guildUUID);
         List<String> guildMembersString=new ArrayList<>();
         for(UUID uuid:this.guildMembers) {
             guildMembersString.add(uuid.toString());
