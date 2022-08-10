@@ -15,6 +15,7 @@ import java.util.UUID;
 public class PlayersManager {
 
     private Map<UUID,UUID> playerGuildMap=new HashMap<>();
+    private Map<UUID,Boolean> playerPendingStatus=new HashMap<>();
     private final File f=new File(FreeGuilds.getInstance().getDataFolder(), "players.yml");
     private final FileConfiguration fc=YamlConfiguration.loadConfiguration(f);
 
@@ -22,8 +23,10 @@ public class PlayersManager {
 
     public void reload() {
         playerGuildMap.clear();
+        playerPendingStatus.clear();
         for(String i:fc.getKeys(false)) {
-            playerGuildMap.put(UUID.fromString(i),UUID.fromString(fc.getString(i)));
+            playerGuildMap.put(UUID.fromString(i),UUID.fromString(fc.getString(i+".guild")));
+            playerPendingStatus.put(UUID.fromString(i),fc.getBoolean(i+".pending"));
         }
     }
 
@@ -41,5 +44,15 @@ public class PlayersManager {
     @Nullable
     public UUID getPlayerGuild(@NotNull final UUID player) {
         return playerGuildMap.get(player);
+    }
+
+    public void setPlayerPendingStatus(UUID player, boolean status) {
+        if(playerPendingStatus.containsKey(player)) playerPendingStatus.replace(player,status);
+        else playerPendingStatus.put(player,status);
+        fc.set(player.toString()+".pending",status);
+    }
+
+    public boolean getPlayerPendingStatus(UUID player) {
+        return playerPendingStatus.getOrDefault(player,false);
     }
 }

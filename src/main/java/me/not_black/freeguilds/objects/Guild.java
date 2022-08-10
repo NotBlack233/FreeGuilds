@@ -20,11 +20,12 @@ public class Guild {
     private final UUID guildUUID;
     private UUID guildMaster;
     private List<UUID> guildMembers;
+    private List<UUID> guildPending;
     private List<String> description;
     private final long creationTime;
     private final GuildChat guildChat;
 
-    public Guild(@NotNull String name,@NotNull UUID guildMaster,@NotNull List<UUID> guildMembers,@NotNull List<String> description, long creationTime,@NotNull String guildPrefix) {
+    public Guild(@NotNull String name,@NotNull UUID guildMaster,@NotNull List<UUID> guildMembers,@NotNull List<String> description, long creationTime,@NotNull String guildPrefix, @NotNull List<UUID> guildPending) {
         this.name = name;
         this.guildUUID = UUID.randomUUID();
         this.guildMaster = guildMaster;
@@ -35,9 +36,10 @@ public class Guild {
         this.guildFile = new File(FreeGuilds.getInstance().getDataFolder() + "//guilds", this.guildUUID + ".yml");
         this.guildFC = YamlConfiguration.loadConfiguration(this.guildFile);
         this.guildChat=new GuildChat(this);
+        this.guildPending = guildPending;
     }
 
-    public Guild(@NotNull String name,@NotNull UUID guildUUID,@NotNull UUID guildMaster,@NotNull List<UUID> guildMembers,@NotNull List<String> description,long creationTime,@NotNull String guildPrefix) {
+    public Guild(@NotNull String name,@NotNull UUID guildUUID,@NotNull UUID guildMaster,@NotNull List<UUID> guildMembers,@NotNull List<String> description,long creationTime,@NotNull String guildPrefix, @NotNull List<UUID> guildPending) {
         this.name = name;
         this.guildUUID = guildUUID;
         this.guildMaster = guildMaster;
@@ -48,6 +50,7 @@ public class Guild {
         this.guildFile = new File(FreeGuilds.getInstance().getDataFolder() + "//guilds", this.guildUUID + ".yml");
         this.guildFC = YamlConfiguration.loadConfiguration(this.guildFile);
         this.guildChat=new GuildChat(this);
+        this.guildPending = guildPending;
     }
 
     public void register() {
@@ -89,6 +92,10 @@ public class Guild {
 
     public long getCreationTime() {
         return creationTime;
+    }
+    @NotNull
+    public List<UUID> getGuildPending() {
+        return guildPending;
     }
 
     public void setName(@NotNull String name) {
@@ -158,6 +165,11 @@ public class Guild {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addGuildPending(@NotNull UUID player) {
+        guildPending.add(player);
+        FreeGuilds.getInstance().getPlayersManager().setPlayerPendingStatus(player,true);
     }
 
     public void removeGuildMember(@NotNull UUID member) {

@@ -38,11 +38,15 @@ public class MessagesManager {
         }
     }
 
-    public static void noConsole(CommandSender sender) {
+    public static void noConsole(@NotNull CommandSender sender) {
         sender.sendMessage(FreeGuilds.getInstance().getMessagesManager().getMsg("noConsole"));
     }
 
-    public static void noPermission(CommandSender sender) {
+    public static void noPermission(@NotNull CommandSender sender) {
         sender.sendMessage(FreeGuilds.getInstance().getMessagesManager().getMsg("noPermission"));
+    }
+
+    public static void wrongUsage(@NotNull CommandSender sender) {
+        sender.sendMessage(FreeGuilds.getInstance().getMessagesManager().getMsg("wrongUsage"));
     }
 }

@@ -17,6 +17,7 @@ public final class GuildsManager {
 
     private final File guildsFolder=new File(FreeGuilds.getInstance().getDataFolder(),"guilds");
 
+    private Map<String, UUID> guildsNameMap=new HashMap<>();
     private Map<UUID, Guild> guilds=new HashMap<>();
 
     public void reload() {
@@ -30,11 +31,16 @@ public final class GuildsManager {
             List<String> description=fc.getStringList("description");
             List<UUID> guildMembers=new ArrayList<>();
             List<String> guildMembersString=fc.getStringList("guildMembers");
+            List<UUID> guildPending=new ArrayList<>();
+            List<String> guildPendingString=fc.getStringList("guildPending");
             for(String stringUUID:guildMembersString) {
                 guildMembers.add(UUID.fromString(stringUUID));
             }
+            for(String stringUUID:guildPendingString) {
+                guildPending.add(UUID.fromString(stringUUID));
+            }
             long creationTime=fc.getLong("creationTime");
-            addGuild(new Guild(name,guildUUID,guildMaster,guildMembers,description,creationTime,guildPrefix));
+            addGuild(new Guild(name,guildUUID,guildMaster,guildMembers,description,creationTime,guildPrefix,guildPending));
         }
     }
 
@@ -42,17 +48,20 @@ public final class GuildsManager {
         if(guilds.containsKey(guild.getGuildUUID())) replaceGuild(guild);
         else {
             guilds.put(guild.getGuildUUID(), guild);
+            guildsNameMap.put(guild.getName(), guild.getGuildUUID());
             saveGuildFile(guild);
         }
     }
 
     public void removeGuild(Guild guild) {
         guilds.remove(guild.getGuildUUID());
+        guildsNameMap.remove(guild.getName());
         removeGuildFile(guild.getGuildUUID());
     }
 
     public void removeGuild(UUID guild) {
         guilds.remove(guild);
+        guildsNameMap.remove(getGuild(guild).getName());
         removeGuildFile(guild);
     }
 
@@ -61,8 +70,14 @@ public final class GuildsManager {
         return guilds.get(guild);
     }
 
+    @Nullable
+    public Guild getGuild(String guild) {
+        return guilds.get(guildsNameMap.get(guild));
+    }
+
     public void replaceGuild(Guild guild) {
         guilds.replace(guild.getGuildUUID(),guild);
+        guildsNameMap.replace(guild.getName(),guild.getGuildUUID());
         saveGuildFile(guild);
     }
 
@@ -74,8 +89,12 @@ public final class GuildsManager {
         return guilds.containsValue(guild);
     }
 
+    public boolean hasGuild(String guild) {
+        return guilds.containsKey(guildsNameMap.get(guild));
+    }
+
     private void saveGuildFile(Guild guild) {
-        File guildFile=new File(FreeGuilds.getInstance().getDataFolder().getName()+"//guilds", guild.getGuildUUID().toString()+".yml");
+        File guildFile=new File(FreeGuilds.getInstance().getDataFolder().getName()+"//guilds", guild.getGuildUUID()+".yml");
         FileConfiguration fc=YamlConfiguration.loadConfiguration(guildFile);
         fc.set("name",guild.getName());
         fc.set("guildPrefix",guild.getGuildPrefix());

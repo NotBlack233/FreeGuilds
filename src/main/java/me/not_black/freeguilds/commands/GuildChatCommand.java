@@ -27,7 +27,9 @@ public class GuildChatCommand implements TabExecutor {
             Guild guild=FreeGuilds.getInstance().getGuildsManager().getGuild(
                     FreeGuilds.getInstance().getPlayersManager().getPlayerGuild(((Player) sender).getUniqueId()));
             if(guild==null) sender.sendMessage(FreeGuilds.getInstance().getMessagesManager().getMsg("notInGuild"));
-            else {
+            else if(args.length==0) {
+                MessagesManager.wrongUsage(sender);
+            } else {
                 StringBuilder msg = new StringBuilder();
                 for (String i : args) {
                     msg.append(" ").append(i);
