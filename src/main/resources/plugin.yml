@@ -13,6 +13,10 @@ commands:
     aliases: gadmin
     usage: /gadmin <args>
     description: Admin command.
+  guildchat:
+    aliases: [gc,gchat]
+    usage: /gc <message>
+    description: Guild chat command.
 permissions:
   guild.use:
     default: true
