@@ -64,5 +64,7 @@ public final class FreeGuilds extends JavaPlugin {
     public void reload() {
         guildsManager.reload();
         configsManager.reload();
+        messagesManager.reload();
+        playersManager.reload();
     }
 }

@@ -1,7 +1,6 @@
 package me.not_black.freeguilds.managers;
 
 import me.not_black.freeguilds.FreeGuilds;
-import me.not_black.freeguilds.objects.Guild;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -37,5 +36,10 @@ public class PlayersManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Nullable
+    public UUID getPlayerGuild(@NotNull final UUID player) {
+        return playerGuildMap.get(player);
     }
 }
