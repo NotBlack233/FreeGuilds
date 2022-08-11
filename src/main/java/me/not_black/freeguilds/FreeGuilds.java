@@ -38,6 +38,9 @@ public final class FreeGuilds extends JavaPlugin {
         Objects.requireNonNull(getCommand("guildadmin")).setTabCompleter(new AdminCommand());
         new Metrics(this,16094);
         new PapiSupport().register();
+        saveDefaultConfig();
+        saveResource("messages.yml",false);
+        saveResource("help.yml",false);
         reload();
     }
 
@@ -71,6 +74,7 @@ public final class FreeGuilds extends JavaPlugin {
     }
 
     public void reload() {
+        reloadConfig();
         guildsManager.reload();
         configsManager.reload();
         messagesManager.reload();

@@ -8,3 +8,6 @@ addToPendingFailedInPending: "&2[&aFreeGuilds&2] &c无法发送入会请求，�
 addToPendingFailedInGuild: "&2[&aFreeGuilds&2] &c无法发送入会请求，你已经在一个公会里了!输入/g leave离开此公会!"
 leaveFailed: "&2[&aFreeGuilds&2] &c离开公会失败!你还没有加入任何公会!"
 leaveSuccess: "&2[&aFreeGuilds&2] &a成功离开公会"
+createFailedNoMoney: "&2[&aFreeGuilds&2] &c创建公会失败!你没有足够的金钱!"
+createFailedAlreadyExist: "&2[&aFreeGuilds&2] &c创建公会失败!该公会已存在!"
+createSuccess: "&2[&aFreeGuilds&2] &a成功创建公会"

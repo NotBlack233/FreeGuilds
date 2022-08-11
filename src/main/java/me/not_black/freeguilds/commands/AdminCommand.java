@@ -10,6 +10,9 @@ import java.util.List;
 
 public class AdminCommand implements TabExecutor {
 
+    /**
+     * TODO Add admin command
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         return false;
