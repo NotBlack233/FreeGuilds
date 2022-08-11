@@ -74,6 +74,10 @@ public final class GuildsManager {
     public Guild getGuild(String guild) {
         return guilds.get(guildsNameMap.get(guild));
     }
+    @NotNull
+    public Set<String> getGuildsName() {
+        return guildsNameMap.keySet();
+    }
 
     public void replaceGuild(Guild guild) {
         guilds.replace(guild.getGuildUUID(),guild);

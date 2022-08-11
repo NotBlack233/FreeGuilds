@@ -10,9 +10,16 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainCommand implements TabExecutor {
+
+    private final List<String> mainTabList=new ArrayList<String>() {{
+        add("chat");
+        add("join");
+        add("leave");
+    }};
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -41,8 +48,11 @@ public class MainCommand implements TabExecutor {
                                 }
                                 else {
                                     Guild guild = FreeGuilds.getInstance().getGuildsManager().getGuild(args[1]);
+                                    if(guild==null) MessagesManager.wrongUsage(sender);
+                                    else {
+                                        guild.addGuildMember(((Player) sender).getUniqueId());
+                                    }
                                 }
-
                             } else MessagesManager.wrongUsage(sender);
                         } else MessagesManager.noPermission(sender);
                     } else MessagesManager.noConsole(sender);
@@ -58,6 +68,18 @@ public class MainCommand implements TabExecutor {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        if(args.length==1) return MessagesManager.listStartsWith(mainTabList,args[0]);
+        else switch (args[0]) {
+            case "chat":
+            case "leave":
+            case "cancel":
+            case "c": {
+                return GuildChatCommand.getEmptyList();
+            }
+            case "join": {
+                return MessagesManager.listStartsWith(new ArrayList<>(FreeGuilds.getInstance().getGuildsManager().getGuildsName()),args[1]);
+            }
+        }
         return null;
     }
 

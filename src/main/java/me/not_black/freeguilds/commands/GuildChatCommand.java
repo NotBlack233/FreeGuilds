@@ -16,7 +16,7 @@ import java.util.Objects;
 
 public class GuildChatCommand implements TabExecutor {
 
-    private final List<String> emptyList=new ArrayList<String>() {{
+    private static final List<String> emptyList=new ArrayList<String>() {{
         add("");
     }};
 
@@ -44,6 +44,10 @@ public class GuildChatCommand implements TabExecutor {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        return emptyList;
+    }
+
+    public static List<String> getEmptyList() {
         return emptyList;
     }
 }

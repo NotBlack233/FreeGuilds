@@ -49,4 +49,10 @@ public class MessagesManager {
     public static void wrongUsage(@NotNull CommandSender sender) {
         sender.sendMessage(FreeGuilds.getInstance().getMessagesManager().getMsg("wrongUsage"));
     }
+
+    public static List<String> listStartsWith(@NotNull List<String> list, @NotNull String prefix) {
+        List<String> tmp=new ArrayList<>();
+        for(String i:list) if(i.startsWith(prefix)) tmp.add(i);
+        return tmp;
+    }
 }
