@@ -23,7 +23,7 @@ public class MainCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if(args.length==0) FreeGuilds.getInstance().getMessagesManager().sendHelp(sender);
+        if(args.length==0) FreeGuilds.Inst().getMessagesManager().sendHelp(sender);
         else if(!sender.hasPermission("guild.use")) {
             MessagesManager.noPermission(sender);
         } else switch (args[0]) {
@@ -40,17 +40,18 @@ public class MainCommand implements TabExecutor {
                     if(sender instanceof Player) {
                         if(sender.hasPermission("guild.join")) {
                             if(args.length==2) {
-                                if(FreeGuilds.getInstance().getPlayersManager().getPlayerPendingStatus(((Player) sender).getUniqueId())) {
-                                    sender.sendMessage(FreeGuilds.getInstance().getMessagesManager().getMsg("addToPendingFailedInPending"));
+                                if(FreeGuilds.Inst().getPlayersManager().getPlayerPendingStatus(((Player) sender).getUniqueId())) {
+                                    sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("addToPendingFailedInPending"));
                                 }
-                                else if(FreeGuilds.getInstance().getPlayersManager().getPlayerGuild(((Player) sender).getUniqueId())!=null) {
-                                    sender.sendMessage(FreeGuilds.getInstance().getMessagesManager().getMsg("addToPendingFailedInGuild"));
+                                else if(FreeGuilds.Inst().getPlayersManager().getPlayerGuild(((Player) sender).getUniqueId())!=null) {
+                                    sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("addToPendingFailedInGuild"));
                                 }
                                 else {
-                                    Guild guild = FreeGuilds.getInstance().getGuildsManager().getGuild(args[1]);
+                                    Guild guild = FreeGuilds.Inst().getGuildsManager().getGuild(args[1]);
                                     if(guild==null) MessagesManager.wrongUsage(sender);
                                     else {
-                                        guild.addGuildMember(((Player) sender).getUniqueId());
+                                        guild.addGuildPending(((Player) sender).getUniqueId());
+                                        sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("addToPendingSuccess"));
                                     }
                                 }
                             } else MessagesManager.wrongUsage(sender);
@@ -59,9 +60,18 @@ public class MainCommand implements TabExecutor {
                     break;
                 }
                 case "leave": {
+                    if(sender instanceof Player) {
+                        if(sender.hasPermission("guild.leave")) {
+                            Guild guild=FreeGuilds.Inst().getGuildsManager().getGuild(FreeGuilds.Inst().getPlayersManager().getPlayerGuild(((Player) sender).getUniqueId()));
+                            if(guild!=null) {
+                                guild.removeGuildMember(((Player) sender).getUniqueId());
+                                sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("leaveSuccess"));
+                            } else sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("leaveFailed"));
+                        } else sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("noPermission"));
+                    } else MessagesManager.noConsole(sender);
                     break;
                 }
-                default: FreeGuilds.getInstance().getMessagesManager().sendHelp(sender);
+                default: FreeGuilds.Inst().getMessagesManager().sendHelp(sender);
         }
         return true;
     }
@@ -73,11 +83,13 @@ public class MainCommand implements TabExecutor {
             case "chat":
             case "leave":
             case "cancel":
+            case "online":
+            case "list":
             case "c": {
                 return GuildChatCommand.getEmptyList();
             }
             case "join": {
-                return MessagesManager.listStartsWith(new ArrayList<>(FreeGuilds.getInstance().getGuildsManager().getGuildsName()),args[1]);
+                return MessagesManager.listStartsWith(new ArrayList<>(FreeGuilds.Inst().getGuildsManager().getGuildsName()),args[1]);
             }
         }
         return null;

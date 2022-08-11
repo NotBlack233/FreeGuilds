@@ -20,7 +20,7 @@ public class GuildChat {
         msg = ChatColor.translateAlternateColorCodes('&', msg);
         for(UUID member: guild.getGuildMembers()) {
             Player p=Bukkit.getPlayer(member);
-            if(p!=null) p.sendMessage(Objects.requireNonNull(FreeGuilds.getInstance().getMessagesManager().getMsg("guildChatFormat"))
+            if(p!=null) p.sendMessage(Objects.requireNonNull(FreeGuilds.Inst().getMessagesManager().getMsg("guildChatFormat"))
                     .replace("{Player}",p.getDisplayName())
                     .replace("Message",msg));
         }

@@ -33,7 +33,7 @@ public class Guild {
         this.description = description;
         this.creationTime = creationTime;
         this.guildPrefix = guildPrefix;
-        this.guildFile = new File(FreeGuilds.getInstance().getDataFolder() + "//guilds", this.guildUUID + ".yml");
+        this.guildFile = new File(FreeGuilds.Inst().getDataFolder() + "//guilds", this.guildUUID + ".yml");
         this.guildFC = YamlConfiguration.loadConfiguration(this.guildFile);
         this.guildChat=new GuildChat(this);
         this.guildPending = guildPending;
@@ -47,18 +47,18 @@ public class Guild {
         this.description = description;
         this.creationTime = creationTime;
         this.guildPrefix = guildPrefix;
-        this.guildFile = new File(FreeGuilds.getInstance().getDataFolder() + "//guilds", this.guildUUID + ".yml");
+        this.guildFile = new File(FreeGuilds.Inst().getDataFolder() + "//guilds", this.guildUUID + ".yml");
         this.guildFC = YamlConfiguration.loadConfiguration(this.guildFile);
         this.guildChat=new GuildChat(this);
         this.guildPending = guildPending;
     }
 
     public void register() {
-        FreeGuilds.getInstance().getGuildsManager().addGuild(this);
+        FreeGuilds.Inst().getGuildsManager().addGuild(this);
     }
 
     public void remove() {
-        FreeGuilds.getInstance().getGuildsManager().removeGuild(this);
+        FreeGuilds.Inst().getGuildsManager().removeGuild(this);
     }
 
     @NotNull
@@ -123,6 +123,7 @@ public class Guild {
         List<String> guildMembersString=new ArrayList<>();
         for(UUID uuid:this.guildMembers) {
             guildMembersString.add(uuid.toString());
+            FreeGuilds.Inst().getPlayersManager().setPlayerGuild(uuid,this.guildUUID);
         }
         guildFC.set("guildMembers",guildMembersString);
         try {
@@ -154,7 +155,7 @@ public class Guild {
 
     public void addGuildMember(@NotNull UUID member) {
         guildMembers.add(member);
-        FreeGuilds.getInstance().getPlayersManager().setPlayerGuild(member,this.guildUUID);
+        FreeGuilds.Inst().getPlayersManager().setPlayerGuild(member,this.guildUUID);
         List<String> guildMembersString=new ArrayList<>();
         for(UUID uuid:this.guildMembers) {
             guildMembersString.add(uuid.toString());
@@ -169,11 +170,12 @@ public class Guild {
 
     public void addGuildPending(@NotNull UUID player) {
         guildPending.add(player);
-        FreeGuilds.getInstance().getPlayersManager().setPlayerPendingStatus(player,true);
+        FreeGuilds.Inst().getPlayersManager().setPlayerPendingStatus(player,true);
     }
 
     public void removeGuildMember(@NotNull UUID member) {
         guildMembers.remove(member);
+        FreeGuilds.Inst().getPlayersManager().setPlayerGuild(member,null);
         List<String> guildMembersString=new ArrayList<>();
         for(UUID uuid:this.guildMembers) {
             guildMembersString.add(uuid.toString());

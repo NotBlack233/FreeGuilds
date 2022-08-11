@@ -12,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class GuildChatCommand implements TabExecutor {
 
@@ -24,9 +23,9 @@ public class GuildChatCommand implements TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
         else {
-            Guild guild=FreeGuilds.getInstance().getGuildsManager().getGuild(
-                    FreeGuilds.getInstance().getPlayersManager().getPlayerGuild(((Player) sender).getUniqueId()));
-            if(guild==null) sender.sendMessage(FreeGuilds.getInstance().getMessagesManager().getMsg("notInGuild"));
+            Guild guild=FreeGuilds.Inst().getGuildsManager().getGuild(
+                    FreeGuilds.Inst().getPlayersManager().getPlayerGuild(((Player) sender).getUniqueId()));
+            if(guild==null) sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("notInGuild"));
             else if(args.length==0) {
                 MessagesManager.wrongUsage(sender);
             } else {

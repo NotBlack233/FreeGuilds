@@ -15,7 +15,7 @@ public final class GuildsManager {
 
     public GuildsManager() {}
 
-    private final File guildsFolder=new File(FreeGuilds.getInstance().getDataFolder(),"guilds");
+    private final File guildsFolder=new File(FreeGuilds.Inst().getDataFolder(),"guilds");
 
     private Map<String, UUID> guildsNameMap=new HashMap<>();
     private Map<UUID, Guild> guilds=new HashMap<>();
@@ -98,7 +98,7 @@ public final class GuildsManager {
     }
 
     private void saveGuildFile(Guild guild) {
-        File guildFile=new File(FreeGuilds.getInstance().getDataFolder().getName()+"//guilds", guild.getGuildUUID()+".yml");
+        File guildFile=new File(FreeGuilds.Inst().getDataFolder().getName()+"//guilds", guild.getGuildUUID()+".yml");
         FileConfiguration fc=YamlConfiguration.loadConfiguration(guildFile);
         fc.set("name",guild.getName());
         fc.set("guildPrefix",guild.getGuildPrefix());
@@ -117,7 +117,7 @@ public final class GuildsManager {
     }
 
     public boolean removeGuildFile(@NotNull String uuid) {
-        File guildFile=new File(FreeGuilds.getInstance().getDataFolder().getName()+"//guilds",uuid+".yml");
+        File guildFile=new File(FreeGuilds.Inst().getDataFolder().getName()+"//guilds",uuid+".yml");
         if(guildFile.exists()) guildFile.delete();
         else return false;
         return true;

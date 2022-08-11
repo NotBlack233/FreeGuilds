@@ -16,7 +16,7 @@ public class PlayersManager {
 
     private Map<UUID,UUID> playerGuildMap=new HashMap<>();
     private Map<UUID,Boolean> playerPendingStatus=new HashMap<>();
-    private final File f=new File(FreeGuilds.getInstance().getDataFolder(), "players.yml");
+    private final File f=new File(FreeGuilds.Inst().getDataFolder(), "players.yml");
     private final FileConfiguration fc=YamlConfiguration.loadConfiguration(f);
 
     public PlayersManager() {}

@@ -17,7 +17,7 @@ public class MessagesManager {
 
     public MessagesManager() {}
     private FileConfiguration getMsgConfig() {
-        return YamlConfiguration.loadConfiguration(new File(FreeGuilds.getInstance().getDataFolder(),"messages.yml"));
+        return YamlConfiguration.loadConfiguration(new File(FreeGuilds.Inst().getDataFolder(),"messages.yml"));
     }
     public void reload() {
         msg.clear();
@@ -25,7 +25,7 @@ public class MessagesManager {
         for (String s : fc.getKeys(false)) {
             msg.put(s,ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(fc.getString(s))));
         }
-        helpList=YamlConfiguration.loadConfiguration(new File(FreeGuilds.getInstance().getDataFolder(), "help.yml")).getStringList("help");
+        helpList=YamlConfiguration.loadConfiguration(new File(FreeGuilds.Inst().getDataFolder(), "help.yml")).getStringList("help");
     }
     @NotNull
     public String getMsg(String name) {
@@ -39,15 +39,15 @@ public class MessagesManager {
     }
 
     public static void noConsole(@NotNull CommandSender sender) {
-        sender.sendMessage(FreeGuilds.getInstance().getMessagesManager().getMsg("noConsole"));
+        sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("noConsole"));
     }
 
     public static void noPermission(@NotNull CommandSender sender) {
-        sender.sendMessage(FreeGuilds.getInstance().getMessagesManager().getMsg("noPermission"));
+        sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("noPermission"));
     }
 
     public static void wrongUsage(@NotNull CommandSender sender) {
-        sender.sendMessage(FreeGuilds.getInstance().getMessagesManager().getMsg("wrongUsage"));
+        sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("wrongUsage"));
     }
 
     public static List<String> listStartsWith(@NotNull List<String> list, @NotNull String prefix) {

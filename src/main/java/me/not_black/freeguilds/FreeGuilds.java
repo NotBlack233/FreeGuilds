@@ -6,6 +6,8 @@ import me.not_black.freeguilds.managers.ConfigsManager;
 import me.not_black.freeguilds.managers.GuildsManager;
 import me.not_black.freeguilds.managers.MessagesManager;
 import me.not_black.freeguilds.managers.PlayersManager;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,6 +21,8 @@ public final class FreeGuilds extends JavaPlugin {
     private ConfigsManager configsManager;
     private MessagesManager messagesManager;
     private PlayersManager playersManager;
+    private Economy economy;
+//    private Metrics metrics;
 
     @Override
     public void onEnable() {
@@ -32,7 +36,8 @@ public final class FreeGuilds extends JavaPlugin {
         Objects.requireNonNull(getCommand("guild")).setTabCompleter(new MainCommand());
         Objects.requireNonNull(getCommand("guildadmin")).setExecutor(new AdminCommand());
         Objects.requireNonNull(getCommand("guildadmin")).setTabCompleter(new AdminCommand());
-
+        new Metrics(this,16094);
+        new PapiSupport().register();
         reload();
     }
 
@@ -41,7 +46,7 @@ public final class FreeGuilds extends JavaPlugin {
         // Plugin shutdown logic
     }
     @NotNull
-    public static FreeGuilds getInstance() {
+    public static FreeGuilds Inst() {
         return instance;
     }
     @NotNull
@@ -60,11 +65,25 @@ public final class FreeGuilds extends JavaPlugin {
     public MessagesManager getMessagesManager() {
         return messagesManager;
     }
+    @NotNull
+    public Economy getEconomy() {
+        return economy;
+    }
 
     public void reload() {
         guildsManager.reload();
         configsManager.reload();
         messagesManager.reload();
         playersManager.reload();
+        setupEconomy();
+    }
+
+    private boolean setupEconomy()
+    {
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            economy = economyProvider.getProvider();
+        }
+        return (economy != null);
     }
 }
