@@ -33,7 +33,15 @@ public class MainCommand implements TabExecutor {
                     if(sender instanceof Player) {
                         if(sender.hasPermission("guild.join")) {
                             if(args.length==2) {
-                                Guild guild = FreeGuilds.getInstance().getGuildsManager().getGuild(args[1]);
+                                if(FreeGuilds.getInstance().getPlayersManager().getPlayerPendingStatus(((Player) sender).getUniqueId())) {
+                                    sender.sendMessage(FreeGuilds.getInstance().getMessagesManager().getMsg("addToPendingFailedInPending"));
+                                }
+                                else if(FreeGuilds.getInstance().getPlayersManager().getPlayerGuild(((Player) sender).getUniqueId())!=null) {
+                                    sender.sendMessage(FreeGuilds.getInstance().getMessagesManager().getMsg("addToPendingFailedInGuild"));
+                                }
+                                else {
+                                    Guild guild = FreeGuilds.getInstance().getGuildsManager().getGuild(args[1]);
+                                }
 
                             } else MessagesManager.wrongUsage(sender);
                         } else MessagesManager.noPermission(sender);
