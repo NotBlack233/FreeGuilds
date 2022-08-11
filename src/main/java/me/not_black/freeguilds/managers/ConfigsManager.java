@@ -1,6 +1,6 @@
 package me.not_black.freeguilds.managers;
 
-public class ConfigsManager {
+public final class ConfigsManager {
 
     public ConfigsManager() {}
 

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class PlayersManager {
+public final class PlayersManager {
 
     private Map<UUID,UUID> playerGuildMap=new HashMap<>();
     private Map<UUID,Boolean> playerPendingStatus=new HashMap<>();

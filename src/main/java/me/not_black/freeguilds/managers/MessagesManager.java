@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.*;
 
-public class MessagesManager {
+public final class MessagesManager {
 
     private final Map<String,String> msg = new HashMap<>();
     private List<String> helpList = new ArrayList<>();
