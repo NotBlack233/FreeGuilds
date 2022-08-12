@@ -101,6 +101,7 @@ public class MainCommand implements TabExecutor {
                         } else MessagesManager.wrongUsage(sender);
                     } else MessagesManager.noPermission(sender);
                 } else MessagesManager.noConsole(sender);
+                break;
             }
             case "disband": {
                 Guild guild;
@@ -116,6 +117,7 @@ public class MainCommand implements TabExecutor {
                         guild.remove();
                     }
                 }
+                break;
             }
             case "list": {
                 if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
@@ -133,6 +135,7 @@ public class MainCommand implements TabExecutor {
                         }
                     }
                 }
+                break;
             }
             case "online": {
                 if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
@@ -149,26 +152,31 @@ public class MainCommand implements TabExecutor {
                         }
                     }
                 }
+                break;
             }
             case "kick": {
                 if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
                 else if(args.length!=2) MessagesManager.wrongUsage(sender);
                 else if(!sender.hasPermission("guild.kick")) MessagesManager.noPermission(sender);
+                break;
             }
             case "transfer": {
                 if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
                 else if(args.length!=2) MessagesManager.wrongUsage(sender);
                 else if(!sender.hasPermission("guild.transfer")) MessagesManager.noPermission(sender);
+                break;
             }
             case "accept": {
                 if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
                 else if(args.length!=2) MessagesManager.wrongUsage(sender);
                 else if(!sender.hasPermission("guild.accept")) MessagesManager.noPermission(sender);
+                break;
             }
             case "deny": {
                 if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
                 else if(args.length!=2) MessagesManager.wrongUsage(sender);
                 else if(!sender.hasPermission("guild.deny")) MessagesManager.noPermission(sender);
+                break;
             }
             default: FreeGuilds.Inst().getMessagesManager().sendHelp(sender);
         }
