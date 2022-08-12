@@ -3,6 +3,7 @@ version: '0.1'
 main: me.not_black.freeguilds.FreeGuilds
 api-version: 1.16
 depend: [ Vault ]
+softdepend: [ PlaceholderAPI ]
 authors: [ Not_Black ]
 commands:
   guild:

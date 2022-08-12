@@ -7,6 +7,7 @@ import me.not_black.freeguilds.managers.GuildsManager;
 import me.not_black.freeguilds.managers.MessagesManager;
 import me.not_black.freeguilds.managers.PlayersManager;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +38,7 @@ public final class FreeGuilds extends JavaPlugin {
         Objects.requireNonNull(getCommand("guildadmin")).setExecutor(new AdminCommand());
         Objects.requireNonNull(getCommand("guildadmin")).setTabCompleter(new AdminCommand());
         new Metrics(this,16094);
-        new PapiSupport().register();
+        if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) new PapiSupport().register();
         saveDefaultConfig();
         saveResource("messages.yml",false);
         saveResource("help.yml",false);
