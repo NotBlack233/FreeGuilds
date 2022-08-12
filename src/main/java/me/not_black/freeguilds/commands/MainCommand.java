@@ -82,6 +82,7 @@ public class MainCommand implements TabExecutor {
                                         add(((Player)sender).getUniqueId());
                                     }}, new ArrayList<>(),System.currentTimeMillis(),args[1], new ArrayList<>());
                                     newGuild.register();
+                                    FreeGuilds.Inst().getEconomy().withdrawPlayer((Player)sender,FreeGuilds.Inst().getConfigsManager().getCreateGuildCost());
                                     sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("createSuccess"));
                                 } else FreeGuilds.Inst().getMessagesManager().getMsg("createFailedNoMoney");
                             } else FreeGuilds.Inst().getMessagesManager().getMsg("createFailedAlreadyExist");

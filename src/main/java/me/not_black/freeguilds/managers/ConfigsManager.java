@@ -9,16 +9,16 @@ public final class ConfigsManager {
     public ConfigsManager() {}
 
     private String configVersion;
-    private int createGuildCost;
+    private double createGuildCost;
 
     public void reload() {
         FileConfiguration config= FreeGuilds.Inst().getConfig();
         configVersion=config.getString("configVersion");
         if(configVersion==null) throw new NullPointerException("Null configVersion");
-        createGuildCost=config.getInt("createGuildCost");
+        createGuildCost=config.getDouble("createGuildCost");
     }
 
-    public int getCreateGuildCost() {
+    public double getCreateGuildCost() {
         return createGuildCost;
     }
 }
