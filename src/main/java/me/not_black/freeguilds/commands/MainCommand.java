@@ -3,6 +3,9 @@ package me.not_black.freeguilds.commands;
 import me.not_black.freeguilds.FreeGuilds;
 import me.not_black.freeguilds.managers.MessagesManager;
 import me.not_black.freeguilds.objects.Guild;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -12,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class MainCommand implements TabExecutor {
@@ -20,6 +24,14 @@ public class MainCommand implements TabExecutor {
         add("chat");
         add("join");
         add("leave");
+        add("create");
+        add("disband");
+        add("list");
+        add("online");
+        add("kick");
+        add("transfer");
+        add("accept");
+        add("deny");
     }};
 
     @Override
@@ -105,6 +117,59 @@ public class MainCommand implements TabExecutor {
                     }
                 }
             }
+            case "list": {
+                if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
+                else if(args.length!=1) MessagesManager.wrongUsage(sender);
+                else if(!sender.hasPermission("guild.list")) MessagesManager.noPermission(sender);
+                else {
+                    Guild guild;
+                    guild=FreeGuilds.Inst().getGuildsManager().getGuild(FreeGuilds.Inst().getPlayersManager().getPlayerGuild(((Player) sender).getUniqueId()));
+                    if(guild==null) sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("notInGuild"));
+                    else {
+                        for(UUID i: guild.getGuildMembers()) {
+                            OfflinePlayer p= Bukkit.getOfflinePlayer(i);
+                            if(p.isOnline()) sender.sendMessage(ChatColor.GREEN+"※ "+ Objects.requireNonNull(p.getPlayer()).getDisplayName()+" ");
+                            else sender.sendMessage(ChatColor.RED+"※ "+p.getName()+" ");
+                        }
+                    }
+                }
+            }
+            case "online": {
+                if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
+                else if(args.length!=1) MessagesManager.wrongUsage(sender);
+                else if(!sender.hasPermission("guild.list")) MessagesManager.noPermission(sender);
+                else {
+                    Guild guild;
+                    guild=FreeGuilds.Inst().getGuildsManager().getGuild(FreeGuilds.Inst().getPlayersManager().getPlayerGuild(((Player) sender).getUniqueId()));
+                    if(guild==null) sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("notInGuild"));
+                    else {
+                        for(UUID i: guild.getGuildMembers()) {
+                            OfflinePlayer p= Bukkit.getOfflinePlayer(i);
+                            if(p.isOnline()) sender.sendMessage(ChatColor.GREEN+"※ "+ Objects.requireNonNull(p.getPlayer()).getDisplayName()+" ");
+                        }
+                    }
+                }
+            }
+            case "kick": {
+                if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
+                else if(args.length!=2) MessagesManager.wrongUsage(sender);
+                else if(!sender.hasPermission("guild.kick")) MessagesManager.noPermission(sender);
+            }
+            case "transfer": {
+                if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
+                else if(args.length!=2) MessagesManager.wrongUsage(sender);
+                else if(!sender.hasPermission("guild.transfer")) MessagesManager.noPermission(sender);
+            }
+            case "accept": {
+                if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
+                else if(args.length!=2) MessagesManager.wrongUsage(sender);
+                else if(!sender.hasPermission("guild.accept")) MessagesManager.noPermission(sender);
+            }
+            case "deny": {
+                if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
+                else if(args.length!=2) MessagesManager.wrongUsage(sender);
+                else if(!sender.hasPermission("guild.deny")) MessagesManager.noPermission(sender);
+            }
             default: FreeGuilds.Inst().getMessagesManager().sendHelp(sender);
         }
         return true;
@@ -119,11 +184,39 @@ public class MainCommand implements TabExecutor {
             case "cancel":
             case "online":
             case "list":
+            case "disband":
+            case "create":
             case "c": {
                 return GuildChatCommand.getEmptyList();
             }
             case "join": {
                 return MessagesManager.listStartsWith(new ArrayList<>(FreeGuilds.Inst().getGuildsManager().getGuildsName()),args[1]);
+            }
+            case "accept":
+            case "deny": {
+                if(sender instanceof Player) {
+                    Guild guild=FreeGuilds.Inst().getGuildsManager().getGuild(
+                            FreeGuilds.Inst().getPlayersManager().getPlayerGuild(((Player) sender).getUniqueId())
+                    );
+                    if(guild==null) return null;
+                    List<String> tmp=new ArrayList<>();
+                    for(UUID i: guild.getGuildPending()) tmp.add(Bukkit.getOfflinePlayer(i).getName());
+                    return MessagesManager.listStartsWith(tmp,args[1]);
+                }
+                else return null;
+            }
+            case "kick":
+            case "transfer": {
+                if(sender instanceof Player) {
+                    Guild guild=FreeGuilds.Inst().getGuildsManager().getGuild(
+                            FreeGuilds.Inst().getPlayersManager().getPlayerGuild(((Player) sender).getUniqueId())
+                    );
+                    if(guild==null) return null;
+                    List<String> tmp=new ArrayList<>();
+                    for(UUID i: guild.getGuildMembers()) tmp.add(Bukkit.getOfflinePlayer(i).getName());
+                    return MessagesManager.listStartsWith(tmp,args[1]);
+                }
+                else return null;
             }
         }
         return null;

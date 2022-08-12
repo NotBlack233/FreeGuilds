@@ -30,7 +30,17 @@ permissions:
     default: true
   guild.remove:
     default: op
+  guild.list:
+    default: true
   guild.forcecreate:
     default: op
   guild.chat:
+    default: true
+  guild.kick:
+    default: true
+  guild.transfer:
+    default: true
+  guild.accept:
+    default: true
+  guild.deny:
     default: true
