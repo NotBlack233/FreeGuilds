@@ -90,6 +90,21 @@ public class MainCommand implements TabExecutor {
                     } else MessagesManager.noPermission(sender);
                 } else MessagesManager.noConsole(sender);
             }
+            case "disband": {
+                Guild guild;
+                if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
+                else if(args.length!=1) MessagesManager.wrongUsage(sender);
+                else {
+                    guild=FreeGuilds.Inst().getGuildsManager().getGuild(
+                            FreeGuilds.Inst().getPlayersManager().getPlayerGuild(((Player) sender).getUniqueId()));
+                    if(guild==null) sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("notInGuild"));
+                    else if(!(sender.hasPermission("guild.disband"))) MessagesManager.noPermission(sender);
+                    else if(!guild.getGuildMaster().equals(((Player) sender).getUniqueId())) MessagesManager.noPermission(sender);
+                    else {
+                        guild.remove();
+                    }
+                }
+            }
             default: FreeGuilds.Inst().getMessagesManager().sendHelp(sender);
         }
         return true;

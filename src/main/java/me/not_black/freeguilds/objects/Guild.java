@@ -59,6 +59,9 @@ public class Guild {
 
     public void remove() {
         FreeGuilds.Inst().getGuildsManager().removeGuild(this);
+        for(UUID member:guildMembers) {
+            FreeGuilds.Inst().getPlayersManager().setPlayerGuild(member,null);
+        }
     }
 
     @NotNull

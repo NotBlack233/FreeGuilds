@@ -22,7 +22,9 @@ public class GuildChatCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
-        else {
+        else if(!sender.hasPermission("guild.chat")) {
+            MessagesManager.noPermission(sender);
+        } else {
             Guild guild=FreeGuilds.Inst().getGuildsManager().getGuild(
                     FreeGuilds.Inst().getPlayersManager().getPlayerGuild(((Player) sender).getUniqueId()));
             if(guild==null) sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("notInGuild"));

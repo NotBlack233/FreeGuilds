@@ -32,3 +32,5 @@ permissions:
     default: op
   guild.forcecreate:
     default: op
+  guild.chat:
+    default: true
