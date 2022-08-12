@@ -32,6 +32,7 @@ public class MainCommand implements TabExecutor {
         add("transfer");
         add("accept");
         add("deny");
+        add("cancel");
     }};
 
     @Override
@@ -64,6 +65,7 @@ public class MainCommand implements TabExecutor {
                                 if(guild==null) MessagesManager.wrongUsage(sender);
                                 else {
                                     guild.addGuildPending(((Player) sender).getUniqueId());
+                                    FreeGuilds.Inst().getPlayersManager().setPlayerPendingStatus(((Player) sender).getUniqueId(),true);
                                     sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("addToPendingSuccess"));
                                 }
                             }
@@ -95,12 +97,14 @@ public class MainCommand implements TabExecutor {
                                     }}, new ArrayList<>(),System.currentTimeMillis(),args[1], new ArrayList<>());
                                     newGuild.register();
                                     FreeGuilds.Inst().getEconomy().withdrawPlayer((Player)sender,FreeGuilds.Inst().getConfigsManager().getCreateGuildCost());
+                                    FreeGuilds.Inst().getPlayersManager().setPlayerGuild(((Player) sender).getUniqueId(),newGuild.getGuildUUID());
                                     sender.sendMessage(FreeGuilds.Inst().getMessagesManager().getMsg("createSuccess"));
                                 } else FreeGuilds.Inst().getMessagesManager().getMsg("createFailedNoMoney");
                             } else FreeGuilds.Inst().getMessagesManager().getMsg("createFailedAlreadyExist");
                         } else MessagesManager.wrongUsage(sender);
                     } else MessagesManager.noPermission(sender);
                 } else MessagesManager.noConsole(sender);
+                break;
             }
             case "disband": {
                 Guild guild;
@@ -116,6 +120,7 @@ public class MainCommand implements TabExecutor {
                         guild.remove();
                     }
                 }
+                break;
             }
             case "list": {
                 if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
@@ -133,6 +138,7 @@ public class MainCommand implements TabExecutor {
                         }
                     }
                 }
+                break;
             }
             case "online": {
                 if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
@@ -149,26 +155,39 @@ public class MainCommand implements TabExecutor {
                         }
                     }
                 }
+                break;
+            }
+            case "cancel": {
+                //TODO
+                break;
             }
             case "kick": {
                 if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
                 else if(args.length!=2) MessagesManager.wrongUsage(sender);
                 else if(!sender.hasPermission("guild.kick")) MessagesManager.noPermission(sender);
+                //TODO
+                break;
             }
             case "transfer": {
                 if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
                 else if(args.length!=2) MessagesManager.wrongUsage(sender);
                 else if(!sender.hasPermission("guild.transfer")) MessagesManager.noPermission(sender);
+                //TODO
+                break;
             }
             case "accept": {
                 if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
                 else if(args.length!=2) MessagesManager.wrongUsage(sender);
                 else if(!sender.hasPermission("guild.accept")) MessagesManager.noPermission(sender);
+                //TODO
+                break;
             }
             case "deny": {
                 if(!(sender instanceof Player)) MessagesManager.noConsole(sender);
                 else if(args.length!=2) MessagesManager.wrongUsage(sender);
                 else if(!sender.hasPermission("guild.deny")) MessagesManager.noPermission(sender);
+                //TODO
+                break;
             }
             default: FreeGuilds.Inst().getMessagesManager().sendHelp(sender);
         }

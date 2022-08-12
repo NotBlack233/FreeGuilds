@@ -15,9 +15,7 @@ import java.util.List;
 
 public class GuildChatCommand implements TabExecutor {
 
-    private static final List<String> emptyList=new ArrayList<String>() {{
-        add("");
-    }};
+    private static final List<String> emptyList= new ArrayList<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

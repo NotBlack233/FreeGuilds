@@ -40,7 +40,7 @@ public final class GuildsManager {
                 guildPending.add(UUID.fromString(stringUUID));
             }
             long creationTime=fc.getLong("creationTime");
-            addGuild(new Guild(name,guildUUID,guildMaster,guildMembers,description,creationTime,guildPrefix,guildPending));
+            addGuild(new Guild(name,guildUUID,guildMaster,guildMembers,description,creationTime,guildPrefix,guildPending),false);
         }
     }
 
@@ -50,6 +50,15 @@ public final class GuildsManager {
             guilds.put(guild.getGuildUUID(), guild);
             guildsNameMap.put(guild.getName(), guild.getGuildUUID());
             saveGuildFile(guild);
+        }
+    }
+
+    public void addGuild(Guild guild,boolean save) {
+        if(guilds.containsKey(guild.getGuildUUID())) replaceGuild(guild);
+        else {
+            guilds.put(guild.getGuildUUID(), guild);
+            guildsNameMap.put(guild.getName(), guild.getGuildUUID());
+            if(save) saveGuildFile(guild);
         }
     }
 
@@ -98,7 +107,7 @@ public final class GuildsManager {
     }
 
     private void saveGuildFile(Guild guild) {
-        File guildFile=new File(FreeGuilds.Inst().getDataFolder().getName()+"//guilds", guild.getGuildUUID()+".yml");
+        File guildFile=new File(guildsFolder, guild.getGuildUUID()+".yml");
         FileConfiguration fc=YamlConfiguration.loadConfiguration(guildFile);
         fc.set("name",guild.getName());
         fc.set("guildPrefix",guild.getGuildPrefix());
@@ -117,7 +126,7 @@ public final class GuildsManager {
     }
 
     public boolean removeGuildFile(@NotNull String uuid) {
-        File guildFile=new File(FreeGuilds.Inst().getDataFolder().getName()+"//guilds",uuid+".yml");
+        File guildFile=new File(FreeGuilds.Inst().getDataFolder().getName()+"\\guilds",uuid+".yml");
         if(guildFile.exists()) guildFile.delete();
         else return false;
         return true;

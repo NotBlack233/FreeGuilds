@@ -25,7 +25,9 @@ public final class PlayersManager {
         playerGuildMap.clear();
         playerPendingStatus.clear();
         for(String i:fc.getKeys(false)) {
-            playerGuildMap.put(UUID.fromString(i),UUID.fromString(fc.getString(i+".guild")));
+            try {
+                playerGuildMap.put(UUID.fromString(i),UUID.fromString(fc.getString(i+".guild")));
+            } catch (Exception ignored) {}
             playerPendingStatus.put(UUID.fromString(i),fc.getBoolean(i+".pending"));
         }
     }
@@ -50,9 +52,22 @@ public final class PlayersManager {
         if(playerPendingStatus.containsKey(player)) playerPendingStatus.replace(player,status);
         else playerPendingStatus.put(player,status);
         fc.set(player.toString()+".pending",status);
+        try {
+            fc.save(f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean getPlayerPendingStatus(UUID player) {
         return playerPendingStatus.getOrDefault(player,false);
+    }
+
+    public File getFile() {
+        return f;
+    }
+
+    public FileConfiguration getFileConfiguration() {
+        return fc;
     }
 }

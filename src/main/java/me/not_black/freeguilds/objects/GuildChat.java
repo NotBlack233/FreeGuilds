@@ -22,7 +22,7 @@ public class GuildChat {
             Player p=Bukkit.getPlayer(member);
             if(p!=null) p.sendMessage(Objects.requireNonNull(FreeGuilds.Inst().getMessagesManager().getMsg("guildChatFormat"))
                     .replace("{Player}",p.getDisplayName())
-                    .replace("Message",msg));
+                    .replace("{Message}",msg));
         }
     }
 

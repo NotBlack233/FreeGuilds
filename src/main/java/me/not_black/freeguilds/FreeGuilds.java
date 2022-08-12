@@ -1,7 +1,9 @@
 package me.not_black.freeguilds;
 
 import me.not_black.freeguilds.commands.AdminCommand;
+import me.not_black.freeguilds.commands.GuildChatCommand;
 import me.not_black.freeguilds.commands.MainCommand;
+import me.not_black.freeguilds.events.PlayerJoinListener;
 import me.not_black.freeguilds.managers.ConfigsManager;
 import me.not_black.freeguilds.managers.GuildsManager;
 import me.not_black.freeguilds.managers.MessagesManager;
@@ -37,11 +39,14 @@ public final class FreeGuilds extends JavaPlugin {
         Objects.requireNonNull(getCommand("guild")).setTabCompleter(new MainCommand());
         Objects.requireNonNull(getCommand("guildadmin")).setExecutor(new AdminCommand());
         Objects.requireNonNull(getCommand("guildadmin")).setTabCompleter(new AdminCommand());
+        Objects.requireNonNull(getCommand("guildchat")).setExecutor(new GuildChatCommand());
+        Objects.requireNonNull(getCommand("guildchat")).setTabCompleter(new GuildChatCommand());
         new Metrics(this,16094);
-        if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) new PapiSupport().register();
+        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null) new PapiSupport().register();
         saveDefaultConfig();
         saveResource("messages.yml",false);
         saveResource("help.yml",false);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(),this);
         reload();
     }
 
